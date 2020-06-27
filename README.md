@@ -2,36 +2,45 @@
 import cv2
 import numpy as num
 from matplotlib import pyplot as pyp
+from matplotlib.style import use
 from skimage import filters
 from skimage.data import camera
 from skimage.util import compare_images
 
-image = camera()
+images=camera()
+x, y = num.ogrid[:200, :200]
+image = num.exp(6j * num.hypot(x, y) ** 1.5 / 30.).real
 
-edges = cv2.Canny(image, threshold1=80, threshold2=400)
-blurred = cv2.GaussianBlur(image,(5,5),3)
-laplacian = cv2.Laplacian(image, cv2.CV_64F)
-sobelx = cv2.Sobel(image,cv2.CV_64F,1,0,ksize=5)
-sobely = cv2.Sobel(image,cv2.CV_64F,0,1,ksize=5)
 
-pyp.subplot(3,3,1),pyp.imshow(image,cmap = 'gray')
-pyp.title('Original'), pyp.xticks([]), pyp.yticks([])
+figure, axes = pyp.subplots(nrows=2, ncols=3, sharex=True, sharey=True,
+                         figsize=(10, 10))
 
-pyp.subplot(3,3,2),pyp.imshow(edges,cmap = 'gray')
-pyp.title('Edge Detect'),pyp.xticks([]), pyp.yticks([])
+edges = cv2.Canny(images, 80, 400)
+blurred = cv2.GaussianBlur(images,(5,5),50)
+laplacian = cv2.Laplacian(images,2)
+sobelx = cv2.Sobel(images,cv2.CV_64FC1,0,1)
+sobely = cv2.Sobel(images,cv2.CV_64FC1,1,0)
 
-pyp.subplot(3,3,3),pyp.imshow(blurred)
-pyp.title('Blurred'),pyp.xticks([]), pyp.yticks([])
+axes = axes.ravel()
 
-pyp.subplot(3,3,4),pyp.imshow(laplacian,cmap = 'gray')
-pyp.title('Laplacian'), pyp.xticks([]), pyp.yticks([])
 
-pyp.subplot(3,3,5),pyp.imshow(sobelx,cmap = 'gray')
-pyp.title('Sobel X'), pyp.xticks([]), pyp.yticks([])
+axes[0].imshow(images, cmap=pyp.cm.gray)
+axes[0].set_title('Original image')
 
-pyp.subplot(3,3,6),pyp.imshow(sobely,cmap = 'gray')
-pyp.title('Sobel Y'), pyp.xticks([]), pyp.yticks([])
+axes[1].imshow(edges, cmap=pyp.cm.gray)
+axes[1].set_title('Edge Detection')
 
+axes[2].imshow(blurred, cmap=pyp.cm.gray)
+axes[2].set_title('Blurred image')
+
+axes[3].imshow(laplacian, cmap=pyp.cm.gray)
+axes[3].set_title('Laplacian')
+
+axes[4].imshow(sobelx, cmap=pyp.cm.gray)
+axes[4].set_title('SobelX')
+
+axes[5].imshow(sobely, cmap=pyp.cm.gray)
+axes[5].set_title('SobelY')
 
 x, y = num.ogrid[:200, :200]
 image = num.exp(6j * num.hypot(x, y) ** 1.5 / 30.).real
