@@ -42,26 +42,6 @@ axes[4].set_title('SobelX')
 axes[5].imshow(sobely, cmap=pyp.cm.gray)
 axes[5].set_title('SobelY')
 
-
-
-
-
-#pyp.subplot(2,3,2),pyp.imshow(edges,cmap = 'gray')
-#pyp.title('Edge Detect'),pyp.xticks([0]), pyp.yticks([2])
-
-#pyp.subplot(2,3,3),pyp.imshow(blurred)
-#pyp.title('Blurred'),pyp.xticks([0]), pyp.yticks([3])
-
-#pyp.subplot(2,3,4),pyp.imshow(laplacian,cmap = 'gray')
-#pyp.title('Laplacian'), pyp.xticks([0]), pyp.yticks([4])
-
-#pyp.subplot(2,3,5),pyp.imshow(sobelx,cmap = 'gray')
-#pyp.title('Sobel X'), pyp.xticks([0]), pyp.yticks([5])
-
-#pyp.subplot(2,3,6),pyp.imshow(sobely,cmap = 'gray')
-#pyp.title('Sobel Y'), pyp.xticks([0]), pyp.yticks([6])
-
-
 x, y = num.ogrid[:200, :200]
 image = num.exp(6j * num.hypot(x, y) ** 1.5 / 30.).real
 
@@ -104,5 +84,7 @@ for ax in axes:
 
 pyp.tight_layout()
 pyp.show()
+
+
 
 
